@@ -1,9 +1,6 @@
-// New Part
 let number1;
 let operator;
 let number2;
-// New Part
-
 
 function add(a, b) {
     console.log(a+b);
