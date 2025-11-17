@@ -27,17 +27,13 @@ function divide(a, b) {
 function operate(num1, operator, num2) {
     switch (operator) {
         case '+': 
-            add(num1, num2);
-            break;
+            return add(num1, num2);
         case '-':
-            subtract(num1, num2);
-            break;
+            return subtract(num1, num2);
         case '*':
-            multiply(num1, num2);
-            break;
+            return multiply(num1, num2);
         case '/':
-            divide(num1, num2);
-            break;
+            return divide(num1, num2);
         default:
             throw new Error('Invalid operator');
     }
@@ -55,7 +51,7 @@ function updateOperator(operator) {
 }
 
 function updateResult(result) {
-    resultDIS.textContent = result;
+    resultDIS.textContent = `= ${result}`;
 }
 
 function updateNumber(number) {
@@ -72,9 +68,11 @@ function updateNumber(number) {
 const digitContainer = document.querySelector('.digits');
 const operatorContainer = document.querySelector('.operators');
 const clearButton = document.querySelector('.clear');
+const enterButton = document.querySelector('.enter');
 
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
+
     if (isNumber1) {
         number1 += e.target.textContent;
         updateNumber(number1);
@@ -93,4 +91,19 @@ operatorContainer.addEventListener('click', e => {
 
 clearButton.addEventListener('click', () => {
     console.log(clearButton.textContent);
+    number1 = '';
+    number2 = '';
+    operator = '';
+    number1DIS.textContent = '';
+    number2DIS.textContent = '';
+    operatorDIS.textContent = '';
+    resultDIS.textContent = '';
+})
+
+enterButton.addEventListener('click', () => {
+    isNumber1 = true;
+    number1 = Number(number1);
+    number2 = Number(number2);
+    let result = operate(number1, operator, number2);
+    updateResult(result);
 })
