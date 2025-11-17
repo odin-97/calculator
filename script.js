@@ -36,3 +36,21 @@ function operate(num1, operator, num2) {
             throw new Error('Invalid operator');
     }
 }
+
+
+const digitContainer = document.querySelector('.digits');
+digitContainer.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    console.log(e.target.textContent);
+})
+
+const operatorContainer = document.querySelector('.operators');
+operatorContainer.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    console.log(e.target.textContent);
+})
+
+const clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', () => {
+    console.log(clearButton.textContent);
+})
