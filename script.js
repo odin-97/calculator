@@ -43,6 +43,13 @@ function operate(num1, operator, num2) {
     }
 }
 
+
+// DISPLAY UPDATE
+const number1DIS = document.querySelector('.number1DIS');
+const number2DIS = document.querySelector('.number2DIS');
+const operatorDIS = document.querySelector('.operatorDIS');
+const resultDIS = document.querySelector('.resultDIS');
+
 function updateOperator(operator) {
     operatorDIS.textContent = operator;
 }
@@ -54,36 +61,36 @@ function updateResult(result) {
 function updateNumber(number) {
     if (isNumber1) {
         number1DIS.textContent = number;
-        isNumber1 = false;
     } else {
         number2DIS.textContent = number;
-        isNumber1 = true;
     }
 }
 
-const number1DIS = document.querySelector('.number1DIS');
-const number2DIS = document.querySelector('.number2DIS');
-const operatorDIS = document.querySelector('.operatorDIS');
-const resultDIS = document.querySelector('.resultDIS');
 
+
+// EVENT LISTENERS 
 const digitContainer = document.querySelector('.digits');
+const operatorContainer = document.querySelector('.operators');
+const clearButton = document.querySelector('.clear');
+
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
-    console.log(e.target.textContent);
     if (isNumber1) {
         number1 += e.target.textContent;
+        updateNumber(number1);
+    } else {
+        number2 += e.target.textContent;
+        updateNumber(number2);
     }
-    console.log(number1);
 })
 
-const operatorContainer = document.querySelector('.operators');
 operatorContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
-    console.log(e.target.textContent);
     operator = e.target.textContent;
+    isNumber1 = false;
+    updateOperator(operator);
 })
 
-const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', () => {
     console.log(clearButton.textContent);
 })
