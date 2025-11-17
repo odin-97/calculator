@@ -1,21 +1,27 @@
-let number1;
-let operator;
-let number2;
+let number1 = '';
+let operator = '';
+let number2 = '';
+
+let isNumber1 = true;
 
 function add(a, b) {
     console.log(a+b);
+    return a + b;
 }
 
 function subtract(a, b) {
     console.log(a-b);
+    return a - b;
 }
 
 function multiply(a, b) {
     console.log(a*b);
+    return a * b;
 }
 
 function divide(a, b) {
     console.log(a/b)
+    return a / b;
 }
 
 function operate(num1, operator, num2) {
@@ -37,17 +43,44 @@ function operate(num1, operator, num2) {
     }
 }
 
+function updateOperator(operator) {
+    operatorDIS.textContent = operator;
+}
+
+function updateResult(result) {
+    resultDIS.textContent = result;
+}
+
+function updateNumber(number) {
+    if (isNumber1) {
+        number1DIS.textContent = number;
+        isNumber1 = false;
+    } else {
+        number2DIS.textContent = number;
+        isNumber1 = true;
+    }
+}
+
+const number1DIS = document.querySelector('.number1DIS');
+const number2DIS = document.querySelector('.number2DIS');
+const operatorDIS = document.querySelector('.operatorDIS');
+const resultDIS = document.querySelector('.resultDIS');
 
 const digitContainer = document.querySelector('.digits');
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
     console.log(e.target.textContent);
+    if (isNumber1) {
+        number1 += e.target.textContent;
+    }
+    console.log(number1);
 })
 
 const operatorContainer = document.querySelector('.operators');
 operatorContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
     console.log(e.target.textContent);
+    operator = e.target.textContent;
 })
 
 const clearButton = document.querySelector('.clear');
