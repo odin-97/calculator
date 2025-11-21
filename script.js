@@ -70,6 +70,7 @@ const operatorContainer = document.querySelector('.operators');
 const clearButton = document.querySelector('.clear');
 const enterButton = document.querySelector('.enter');
 const floatButton = document.querySelector('.float');
+const backSpace = document.querySelector('.back');
 
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
@@ -143,4 +144,19 @@ floatButton.addEventListener('click', () => {
         
         updateNumber(value);
     }
+})
+
+backSpace.addEventListener('click', () => {
+    if (operator) {
+        operator = '';
+        updateOperator()
+        if (!isNumber1) isNumber1 = true;
+        return;
+    }
+
+    let value = isNumber1 ? number1 :number2;
+    value = value.slice(0, -1);
+    if (isNumber1) number1 = value;
+    else number2 = value;
+    updateNumber(value);
 })
