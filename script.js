@@ -69,6 +69,7 @@ const digitContainer = document.querySelector('.digits');
 const operatorContainer = document.querySelector('.operators');
 const clearButton = document.querySelector('.clear');
 const enterButton = document.querySelector('.enter');
+const floatButton = document.querySelector('.float');
 
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
@@ -131,3 +132,15 @@ function clearDisplay() {
     resultDIS.textContent = '';
     isNumber1 = true;
 }
+
+floatButton.addEventListener('click', () => {
+    let value = isNumber1 ? number1 : number2;
+    if (!value.includes('.')) {
+        value += '.';
+
+        if (isNumber1) number1 = value;
+        else number2 = value;
+        
+        updateNumber(value);
+    }
+})
