@@ -5,28 +5,28 @@ let number2 = '';
 let isNumber1 = true;
 
 function add(a, b) {
-    console.log(a+b);
+    console.log(a + b);
     return a + b;
 }
 
 function subtract(a, b) {
-    console.log(a-b);
+    console.log(a - b);
     return a - b;
 }
 
 function multiply(a, b) {
-    console.log(a*b);
+    console.log(a * b);
     return a * b;
 }
 
 function divide(a, b) {
-    console.log(a/b)
+    console.log(a / b)
     return a / b;
 }
 
 function operate(num1, operator, num2) {
     switch (operator) {
-        case '+': 
+        case '+':
             return add(num1, num2);
         case '-':
             return subtract(num1, num2);
@@ -84,21 +84,25 @@ digitContainer.addEventListener('click', e => {
 
 operatorContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
+    if (!isNumber1) {
+        console.log('SECOND OPERATOR');
+        console.log(`Number1: ${number1}`);
+        console.log(`Number2: ${number2}`);
+        number1 = Number(number1);
+        number2 = Number(number2);
+
+        let result = operate(number1, operator, number2);
+        clearDisplay();
+        number1 = result;
+        updateNumber(number1);
+    }
+
     operator = e.target.textContent;
     isNumber1 = false;
     updateOperator(operator);
 })
 
-clearButton.addEventListener('click', () => {
-    console.log(clearButton.textContent);
-    number1 = '';
-    number2 = '';
-    operator = '';
-    number1DIS.textContent = '';
-    number2DIS.textContent = '';
-    operatorDIS.textContent = '';
-    resultDIS.textContent = '';
-})
+clearButton.addEventListener('click', clearDisplay);
 
 enterButton.addEventListener('click', () => {
     isNumber1 = true;
@@ -107,3 +111,15 @@ enterButton.addEventListener('click', () => {
     let result = operate(number1, operator, number2);
     updateResult(result);
 })
+
+function clearDisplay() {
+    console.log(clearButton.textContent);
+    number1 = '';
+    number2 = '';
+    operator = '';
+    number1DIS.textContent = '';
+    number2DIS.textContent = '';
+    operatorDIS.textContent = '';
+    resultDIS.textContent = '';
+    isNumber1 = true;
+}
