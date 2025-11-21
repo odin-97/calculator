@@ -5,22 +5,22 @@ let number2 = '';
 let isNumber1 = true;
 
 function add(a, b) {
-    console.log(a + b);
     return a + b;
 }
 
 function subtract(a, b) {
-    console.log(a - b);
     return a - b;
 }
 
 function multiply(a, b) {
-    console.log(a * b);
     return a * b;
 }
 
 function divide(a, b) {
-    console.log(a / b)
+    if (b === 0) {
+        alert('Cant divide by Zero!');
+        return NaN;
+    }
     return a / b;
 }
 
@@ -72,6 +72,9 @@ const enterButton = document.querySelector('.enter');
 
 digitContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
+    if (resultDIS.textContent) {
+        clearDisplay();
+    }
 
     if (isNumber1) {
         number1 += e.target.textContent;
@@ -84,17 +87,15 @@ digitContainer.addEventListener('click', e => {
 
 operatorContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
-    if (!isNumber1) {
-        console.log('SECOND OPERATOR');
-        console.log(`Number1: ${number1}`);
-        console.log(`Number2: ${number2}`);
+    if (!isNumber1 || resultDIS.textContent) {
         number1 = Number(number1);
         number2 = Number(number2);
-
         let result = operate(number1, operator, number2);
         clearDisplay();
-        number1 = result;
-        updateNumber(number1);
+        if (result) {
+            number1 = +result.toFixed(2);
+            updateNumber(number1);
+        } else return;
     }
 
     operator = e.target.textContent;
@@ -105,10 +106,17 @@ operatorContainer.addEventListener('click', e => {
 clearButton.addEventListener('click', clearDisplay);
 
 enterButton.addEventListener('click', () => {
+    if (!number1 || !number2 || !operator) return;
+
     isNumber1 = true;
     number1 = Number(number1);
     number2 = Number(number2);
     let result = operate(number1, operator, number2);
+    if (result) result = +result.toFixed(2);
+    else {
+        clearDisplay();
+        return;
+    }
     updateResult(result);
 })
 
