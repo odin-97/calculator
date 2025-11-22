@@ -1,9 +1,30 @@
+// #region GLOBAL VARIABLES
 let number1 = '';
 let operator = '';
 let number2 = '';
 
 let isNumber1 = true;
 
+const numericalKeys = '0123456789';
+const operatorKeys = '+-*/';
+
+// DISPLAY SECTIONS
+const number1DIS = document.querySelector('.number1DIS');
+const number2DIS = document.querySelector('.number2DIS');
+const operatorDIS = document.querySelector('.operatorDIS');
+const resultDIS = document.querySelector('.resultDIS');
+
+// EVENT LISTENERS 
+const digitContainer = document.querySelector('.digits');
+const operatorContainer = document.querySelector('.operators');
+const clearButton = document.querySelector('.clear');
+const enterButton = document.querySelector('.enter');
+const floatButton = document.querySelector('.float');
+const backSpace = document.querySelector('.back');
+
+// #endregion
+
+// #region OPERATIONS
 function add(a, b) {
     return a + b;
 }
@@ -38,14 +59,10 @@ function operate(num1, operator, num2) {
             throw new Error('Invalid operator');
     }
 }
+//#endregion
 
 
 // DISPLAY UPDATE
-const number1DIS = document.querySelector('.number1DIS');
-const number2DIS = document.querySelector('.number2DIS');
-const operatorDIS = document.querySelector('.operatorDIS');
-const resultDIS = document.querySelector('.resultDIS');
-
 function updateOperator(operator) {
     operatorDIS.textContent = operator;
 }
@@ -65,14 +82,7 @@ function updateNumber(number) {
 
 
 // EVENT LISTENERS 
-const digitContainer = document.querySelector('.digits');
-const operatorContainer = document.querySelector('.operators');
-const clearButton = document.querySelector('.clear');
-const enterButton = document.querySelector('.enter');
-const floatButton = document.querySelector('.float');
-const backSpace = document.querySelector('.back');
-
-digitContainer.addEventListener('click', e => {
+function digitInput(e) {
     if (e.target.tagName !== 'BUTTON') return;
     if (resultDIS.textContent) {
         clearDisplay();
@@ -85,9 +95,11 @@ digitContainer.addEventListener('click', e => {
         number2 += e.target.textContent;
         updateNumber(number2);
     }
-})
+}
+digitContainer.addEventListener('click', digitInput);
 
-operatorContainer.addEventListener('click', e => {
+
+function operatorInput(e) {
     if (e.target.tagName !== 'BUTTON') return;
     if (!isNumber1 || resultDIS.textContent) {
         number1 = Number(number1);
@@ -103,24 +115,9 @@ operatorContainer.addEventListener('click', e => {
     operator = e.target.textContent;
     isNumber1 = false;
     updateOperator(operator);
-})
+}
+operatorContainer.addEventListener('click', operatorInput);
 
-clearButton.addEventListener('click', clearDisplay);
-
-enterButton.addEventListener('click', () => {
-    if (!number1 || !number2 || !operator) return;
-
-    isNumber1 = true;
-    number1 = Number(number1);
-    number2 = Number(number2);
-    let result = operate(number1, operator, number2);
-    if (result) result = +result.toFixed(2);
-    else {
-        clearDisplay();
-        return;
-    }
-    updateResult(result);
-})
 
 function clearDisplay() {
     console.log(clearButton.textContent);
@@ -133,30 +130,135 @@ function clearDisplay() {
     resultDIS.textContent = '';
     isNumber1 = true;
 }
+clearButton.addEventListener('click', clearDisplay);
 
-floatButton.addEventListener('click', () => {
+
+function enterInput() {
+    if (!number1 || !number2 || !operator) return;
+
+    isNumber1 = true;
+    number1 = Number(number1);
+    number2 = Number(number2);
+    let result = operate(number1, operator, number2);
+    if (result) result = +result.toFixed(2);
+    else {
+        clearDisplay();
+        return;
+    }
+    updateResult(result);
+}
+enterButton.addEventListener('click', enterInput);
+
+
+function floatInput() {
     let value = isNumber1 ? number1 : number2;
     if (!value.includes('.')) {
         value += '.';
 
         if (isNumber1) number1 = value;
         else number2 = value;
-        
+
         updateNumber(value);
     }
-})
+}
+floatButton.addEventListener('click', floatInput)
 
-backSpace.addEventListener('click', () => {
-    if (operator) {
+
+function backSpaceInput() {
+    if (operator && number2 === '') {
+        console.log(number2)
         operator = '';
         updateOperator()
         if (!isNumber1) isNumber1 = true;
         return;
     }
 
-    let value = isNumber1 ? number1 :number2;
+    let value = isNumber1 ? number1 : number2;
     value = value.slice(0, -1);
     if (isNumber1) number1 = value;
     else number2 = value;
     updateNumber(value);
+}
+backSpace.addEventListener('click', backSpaceInput)
+
+// KEYBOARD INPUT
+document.addEventListener('keydown', e => {
+    const keyName = e.key;
+    if (numericalKeys.includes(keyName)) {
+        if (resultDIS.textContent) {
+            clearDisplay();
+        }
+
+        if (isNumber1) {
+            number1 += keyName;
+            updateNumber(number1);
+        } else {
+            number2 += keyName;
+            updateNumber(number2);
+        }
+    }
+
+    else if (operatorKeys.includes(keyName)) {
+        if (!isNumber1 || resultDIS.textContent) {
+            number1 = Number(number1);
+            number2 = Number(number2);
+            let result = operate(number1, operator, number2);
+            clearDisplay();
+            if (result) {
+                number1 = +result.toFixed(2);
+                updateNumber(number1);
+            } else return;
+        }
+
+        operator = keyName;
+        isNumber1 = false;
+        updateOperator(operator);
+    }
+
+    else if (keyName === 'Enter') {
+        if (!number1 || !number2 || !operator) return;
+
+        isNumber1 = true;
+        number1 = Number(number1);
+        number2 = Number(number2);
+        let result = operate(number1, operator, number2);
+        if (result) result = +result.toFixed(2);
+        else {
+            clearDisplay();
+            return;
+        }
+        updateResult(result);
+    }
+
+    else if (keyName === '.') {
+        let value = isNumber1 ? number1 : number2;
+        if (!value.includes('.')) {
+            value += '.';
+
+            if (isNumber1) number1 = value;
+            else number2 = value;
+
+            updateNumber(value);
+        }
+    }
+
+
+    else if (keyName === 'Backspace') {
+        if (operator && number2 === '') {
+            operator = '';
+            updateOperator()
+            if (!isNumber1) isNumber1 = true;
+            return;
+        }
+
+        let value = isNumber1 ? number1 : number2;
+        value = value.slice(0, -1);
+        if (isNumber1) number1 = value;
+        else number2 = value;
+        updateNumber(value);
+    }
+
+    else if (keyName === 'Delete') {
+        clearDisplay()
+    }
 })
