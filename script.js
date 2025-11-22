@@ -84,6 +84,9 @@ function updateNumber(number) {
 // EVENT LISTENERS 
 function digitInput(e) {
     if (e.target.tagName !== 'BUTTON') return;
+     // Prevent clicks on .misc buttons
+    if (e.target.closest('.misc')) return;
+
     if (resultDIS.textContent) {
         clearDisplay();
     }
@@ -101,6 +104,7 @@ digitContainer.addEventListener('click', digitInput);
 
 function operatorInput(e) {
     if (e.target.tagName !== 'BUTTON') return;
+    if (e.target.closest('.misc')) return;
     if (!isNumber1 || resultDIS.textContent) {
         number1 = Number(number1);
         number2 = Number(number2);

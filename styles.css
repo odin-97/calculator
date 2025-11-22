@@ -1,9 +1,112 @@
-/* * {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-} */
+}
+
+body {
+    background-color: lightgray;
+}
+
+.container {
+    margin: auto;
+    width: 30%;
+    height: 500px;
+    border: 3px solid black;
+    margin-top: 30px;
+    background-color: grey;
+    border-radius: 12px;
+}
 
 .display {
     border: 3px solid black;
+    margin: 10px;
+    /* width: 100%; */
+    height: 100px;;
+    background-color: aliceblue;
+    padding: 30px;
 }
+
+.display span {
+    font-size: larger;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.inputSection {
+    margin: 10px;
+    height: 350px;
+}
+
+.deleteSection {
+    height: 70px;
+    display: flex;
+    gap: 12px;
+}
+
+.deleteSection button {
+    flex: 1;
+    gap: 10px;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.clear {
+    background-color: red;
+}
+
+.back {
+    background-color: blue;
+}
+
+.operatorAndDigits {
+    height: calc(100% - 70px);
+    display: flex;
+    gap: 10px;
+}
+
+.operators {
+    display: flex;
+    flex-direction: column;
+    width: calc(100%/3);
+    gap: 10px;
+}
+
+.operators button {
+    flex: 1;
+    border-radius: 10px;
+    font-size: larger;
+    font-weight: bolder;
+    background-color: orange;
+    color: whitesmoke;
+}
+
+.misc {
+    display: flex;
+    gap: 5px;
+}
+
+.misc button {
+    flex: 1;
+}
+
+
+.digits {
+    width: calc(200% / 3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.digits button {
+    flex: 1 1 calc(100% / 3);
+    border-radius: 10px;
+    background-color: black;
+    color: whitesmoke;
+    font-size: larger;
+    font-weight: bolder;
+}
+
